@@ -9,7 +9,8 @@ val testEnvironment = Environment(
 fun main(args: Array<String>) {
 
 
-    Bootstrap.initializeDatabase(testEnvironment)
+    //Bootstrap.initializeDatabase(testEnvironment)
+    Bootstrap.initializeDatabase(Environment())
 
     Bootstrap.start(webApplication())
 

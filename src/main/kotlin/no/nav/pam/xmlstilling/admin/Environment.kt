@@ -1,9 +1,9 @@
 package no.nav.pam.xmlstilling.admin
 
 data class Environment(
-        val xmlStillingDataSourceUrl: String = getEnvVar("AETATNOXMLSTILLINGADMINDS_URL"),
-        val username: String = getEnvVar("AETATNOXMLSTILLINGADMINDS_USERNAME"),
-        val password: String = getEnvVar("AETATNOXMLSTILLINGADMINDS_PASSWORD")
+        val xmlStillingDataSourceUrl: String = getEnvVar("XMLSTILLING_DB_URL"),
+        val username: String = getEnvVar("XMLSTILLING_DB_USERNAME"),
+        val password: String = getEnvVar("XMLSTILLING_DB_PASSWORD")
 
 )
 
