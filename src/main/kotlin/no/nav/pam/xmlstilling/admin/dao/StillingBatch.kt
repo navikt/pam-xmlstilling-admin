@@ -6,7 +6,13 @@ import mu.KotlinLogging
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-private val searchStillingBatchSql = """
+private val searchWithDatesOnlySql = """
+    select *
+    from stilling_batch
+    where mottatt_dato >= ? and mottatt_dato <= ?
+""".trimIndent()
+
+private val searchWithTextSql = """
     select *
     from stilling_batch
     where mottatt_dato >= ? and mottatt_dato <= ?
@@ -14,7 +20,8 @@ private val searchStillingBatchSql = """
 """.trimIndent()
 
 class StillingBatch (
-        private val searchQuery: String = searchStillingBatchSql
+        private val searchWithDatesOnlyQuery: String = searchWithDatesOnlySql,
+        private val searchWithTextQuery: String = searchWithTextSql
 ) {
     private val log = KotlinLogging.logger {}
 
@@ -40,13 +47,19 @@ class StillingBatch (
         )
     }
 
-    fun getQuery(mottattFom: LocalDateTime, mottattTom: LocalDateTime, searchstring: String): ListResultQueryAction<StillingBatchEntry> {
-        return queryOf(searchQuery, mottattFom, mottattTom, searchstring, searchstring).map(toStillingBatchEntry).asList
+    fun getQuery(mottattFom: LocalDateTime, mottattTom: LocalDateTime): ListResultQueryAction<StillingBatchEntry> {
+        return queryOf(searchWithDatesOnlyQuery, mottattFom, mottattTom).map(toStillingBatchEntry).asList
     }
 
-    fun search(mottattFom: LocalDateTime, mottattTom: LocalDateTime, searchstring: String): List<StillingBatchEntry> {
+    fun getQuery(mottattFom: LocalDateTime, mottattTom: LocalDateTime, searchstring: String): ListResultQueryAction<StillingBatchEntry> {
+        return queryOf(searchWithTextQuery, mottattFom, mottattTom, searchstring, searchstring).map(toStillingBatchEntry).asList
+    }
+
+    fun search(mottattFom: LocalDateTime, mottattTom: LocalDateTime, searchstring: String?): List<StillingBatchEntry> {
         return using(sessionOf(HikariCP.dataSource())) {
-            return@using it.run(getQuery(mottattFom, mottattTom, "%" + searchstring.toLowerCase() + "%"))
+            return@using it.run(if (searchstring.isNullOrBlank())
+                getQuery(mottattFom, mottattTom) else
+                getQuery(mottattFom, mottattTom, "%" + searchstring.toLowerCase() + "%"))
         }
     }
 }

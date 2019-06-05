@@ -13,17 +13,18 @@ import io.ktor.server.netty.Netty
 import kotliquery.HikariCP
 import mu.KotlinLogging
 import no.nav.pam.xmlstilling.admin.Bootstrap.start
+import no.nav.pam.xmlstilling.admin.dao.StillingBatch
 import no.nav.pam.xmlstilling.admin.platform.health
+import java.time.LocalDateTime
 
 fun main(args: Array<String>) {
 
-    //Bootstrap.initializeDatabase(Environment())
-
+    Bootstrap.initializeDatabase(Environment())
     start(webApplication())
 
 }
 
-fun webApplication(port: Int = 9024): ApplicationEngine {
+fun webApplication(port: Int = 9024, batch: StillingBatch = StillingBatch()): ApplicationEngine {
     return embeddedServer(Netty, port) {
         install(ContentNegotiation) {
             gson {
@@ -32,6 +33,13 @@ fun webApplication(port: Int = 9024): ApplicationEngine {
         }
         routing {
             health()
+            get("search/{from}/{to}/{searchtext?}") {
+                call.respond(batch.search(
+                        LocalDateTime.parse(call.parameters["from"] + "T00:00:00"),
+                        LocalDateTime.parse(call.parameters["to"] + "T23:59:59"),
+                        call.parameters["searchtext"]
+                        ))
+            }
         }
     }
 }

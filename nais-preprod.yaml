@@ -1,0 +1,26 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: pam-xmlstilling-admin
+  namespace: default
+  labels:
+    team: teampam
+spec:
+  image: repo.adeo.no:5443/pam-xmlstilling-admin
+  port: 9022
+  replicas:
+    min: 2
+    max: 4
+    cpuThresholdPercentage: 50
+  liveness:
+    initialDelay: 40
+    path: /isAlive
+  readiness:
+    initialDelay: 40
+    path: /isAlive
+  webproxy: true
+  vault:
+    enabled: true
+  ingresses:
+  - https://pam-xmlstilling-admin.nais.oera-q.local
+  secrets: true

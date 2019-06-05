@@ -108,4 +108,16 @@ class StillingBatchTest {
         Assertions.assertThat(entry.arbeidsgiver).isEqualTo("NAV")
         Assertions.assertThat(entry.eksternBrukerRef).isEqualTo("karriereno")
     }
+
+    @Test
+    fun testSearchWithoutText() {
+        arrayOf(" ", "", null).forEach {
+            val stillingBatchEntries= StillingBatch().search(
+                    startDate,
+                    endDate,
+                    it
+            )
+            Assertions.assertThat(stillingBatchEntries.size).isEqualTo(4)
+        }
+    }
 }
