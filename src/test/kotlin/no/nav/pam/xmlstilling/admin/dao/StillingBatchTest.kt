@@ -64,10 +64,11 @@ class StillingBatchTest {
 
     val startDate = LocalDateTime.of(2018, 1, 23, 0, 0, 0)
     val endDate = LocalDateTime.of(2018, 1, 30, 0, 0, 0)
+    val stillingBatch = StillingBatch(HikariCP.dataSource())
 
     @Test
     fun testSearchWithSearchText() {
-        val stillingBatchEntries= StillingBatch().search(
+        val stillingBatchEntries= stillingBatch.search(
                 startDate,
                 endDate,
                 "karri"
@@ -77,7 +78,7 @@ class StillingBatchTest {
 
     @Test
     fun testSearchWithEmptySearchText() {
-        val stillingBatchEntries= StillingBatch().search(
+        val stillingBatchEntries= stillingBatch.search(
                 startDate,
                 endDate,
                 ""
@@ -87,7 +88,7 @@ class StillingBatchTest {
 
     @Test
     fun testSearchWithNoMatches() {
-        val stillingBatchEntries= StillingBatch().search(
+        val stillingBatchEntries= stillingBatch.search(
                 startDate,
                 endDate,
                 "no_matches_for_this"
@@ -97,7 +98,7 @@ class StillingBatchTest {
 
     @Test
     fun testValues() {
-        val stillingBatchEntries= StillingBatch().search(
+        val stillingBatchEntries= stillingBatch.search(
                 startDate,
                 endDate,
                 "nAv"
@@ -112,7 +113,7 @@ class StillingBatchTest {
     @Test
     fun testSearchWithoutText() {
         arrayOf(" ", "", null).forEach {
-            val stillingBatchEntries= StillingBatch().search(
+            val stillingBatchEntries= stillingBatch.search(
                     startDate,
                     endDate,
                     it

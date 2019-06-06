@@ -5,6 +5,7 @@ import kotliquery.action.ListResultQueryAction
 import mu.KotlinLogging
 import java.time.LocalDate
 import java.time.LocalDateTime
+import javax.sql.DataSource
 
 private val searchWithDatesOnlySql = """
     select *
@@ -20,6 +21,7 @@ private val searchWithTextSql = """
 """.trimIndent()
 
 class StillingBatch (
+        private val ds: DataSource,
         private val searchWithDatesOnlyQuery: String = searchWithDatesOnlySql,
         private val searchWithTextQuery: String = searchWithTextSql
 ) {
@@ -56,7 +58,7 @@ class StillingBatch (
     }
 
     fun search(mottattFom: LocalDateTime, mottattTom: LocalDateTime, searchstring: String?): List<StillingBatchEntry> {
-        return using(sessionOf(HikariCP.dataSource())) {
+        return using(sessionOf(ds)) {
             return@using it.run(if (searchstring.isNullOrBlank())
                 getQuery(mottattFom, mottattTom) else
                 getQuery(mottattFom, mottattTom, "%" + searchstring.toLowerCase() + "%"))
