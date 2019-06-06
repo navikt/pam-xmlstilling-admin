@@ -1,16 +1,18 @@
 package no.nav.pam.xmlstilling.admin
 
+import kotliquery.HikariCP
 import no.nav.pam.xmlstilling.admin.dao.StillingBatch
+import no.nav.pam.xmlstilling.admin.dao.createDatabase
+import no.nav.pam.xmlstilling.admin.dao.loadBasicTestData
+import javax.sql.DataSource
 
-val testEnvironment = Environment(
-        xmlStillingDataSourceUrl = "jdbc:h2:mem:test;",
-        username = "user",
-        password = "pass"
-)
+fun initializeDatabase(): DataSource {
+    HikariCP.default("jdbc:h2:mem:test;", "user", "pass")
+    createDatabase()
+    loadBasicTestData()
+    return HikariCP.dataSource()
+}
 
 fun main(args: Array<String>) {
-    //val ds = Bootstrap.initializeDatabase(testEnvironment)
-    val ds = Bootstrap.initializeDatabase(Environment())
-
-    Bootstrap.start(webApplication(batch = StillingBatch(ds)))
+    Bootstrap.start(webApplication(batch = StillingBatch(initializeDatabase())))
 }

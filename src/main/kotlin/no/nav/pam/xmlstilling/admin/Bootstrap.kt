@@ -1,7 +1,8 @@
 package no.nav.pam.xmlstilling.admin
 
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializer
 import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -16,7 +17,10 @@ import mu.KotlinLogging
 import no.nav.pam.xmlstilling.admin.Bootstrap.start
 import no.nav.pam.xmlstilling.admin.dao.StillingBatch
 import no.nav.pam.xmlstilling.admin.platform.health
+import no.nav.vault.jdbc.hikaricp.HikariCPVaultUtil
 import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import javax.sql.DataSource
 
 fun main(args: Array<String>) {
@@ -29,6 +33,9 @@ fun webApplication(port: Int = 9024, batch: StillingBatch): ApplicationEngine {
         install(ContentNegotiation) {
             gson {
                 setPrettyPrinting()
+                registerTypeAdapter(LocalDateTime::class.java, JsonSerializer<LocalDateTime> { localDateTime, _, _ ->
+                    JsonPrimitive(DateTimeFormatter.ISO_INSTANT.format(localDateTime.atOffset(ZoneOffset.UTC).toInstant()))
+                })
             }
         }
         routing {
@@ -52,11 +59,13 @@ object Bootstrap {
         log.debug("Initializing database connection pool")
         val config = HikariConfig()
         config.jdbcUrl = env.xmlStillingDataSourceUrl
-        config.username = env.username
-        config.password = env.password
         config.maximumPoolSize = 5
         config.minimumIdle = 1
-        return HikariDataSource(config)
+        return HikariCPVaultUtil.createHikariDataSourceWithVaultIntegration(
+                config,
+                env.mountPath,
+                String.format("%s-readonly", env.dbName)
+        )
     }
 
     fun start(webApplication: ApplicationEngine) {

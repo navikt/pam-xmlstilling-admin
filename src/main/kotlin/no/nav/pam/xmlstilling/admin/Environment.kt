@@ -2,8 +2,8 @@ package no.nav.pam.xmlstilling.admin
 
 data class Environment(
         val xmlStillingDataSourceUrl: String = getEnvVar("XMLSTILLING_DB_URL"),
-        val username: String = getEnvVar("XMLSTILLING_DB_USERNAME"),
-        val password: String = getEnvVar("XMLSTILLING_DB_PASSWORD")
+        val dbName: String = getEnvVar("XMLSTILLING_DB_NAME"),
+        val mountPath: String = getEnvVar("VAULT_MOUNT_PATH")
 
 )
 
