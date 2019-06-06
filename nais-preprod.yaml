@@ -22,5 +22,6 @@ spec:
   vault:
     enabled: true
   ingresses:
-  - https://pam-xmlstilling-admin.nais.oera-q.local
+  - https://pam-xmlstilling-admin.nais.preprod.local
+  - https://pam-xmlstilling-admin-q.adeo.no
   secrets: true
