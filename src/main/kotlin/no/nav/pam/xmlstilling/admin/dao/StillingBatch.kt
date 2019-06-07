@@ -2,10 +2,17 @@ package no.nav.pam.xmlstilling.admin.dao
 
 import kotliquery.*
 import kotliquery.action.ListResultQueryAction
+import kotliquery.action.NullableResultQueryAction
 import mu.KotlinLogging
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.sql.DataSource
+
+private val selectById = """
+    select *
+    from stilling_batch
+    where stilling_batch_id = ?
+""".trimIndent()
 
 private val searchWithDatesOnlySql = """
     select *
@@ -62,6 +69,13 @@ class StillingBatch (
             return@using it.run(if (searchstring.isNullOrBlank())
                 getQuery(mottattFom, mottattTom) else
                 getQuery(mottattFom, mottattTom, "%" + searchstring.toLowerCase() + "%"))
+        }
+    }
+
+    fun getSingle(id: Int): StillingBatchEntry? {
+        return using(sessionOf(ds)) {
+            return@using it.run(
+            queryOf(selectById, id).map(toStillingBatchEntry).asSingle)
         }
     }
 }

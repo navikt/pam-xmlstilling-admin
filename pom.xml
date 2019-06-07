@@ -84,6 +84,12 @@
         </dependency>
 
         <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-html-builder</artifactId>
+            <version>${ktor_version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.github.microutils</groupId>
             <artifactId>kotlin-logging</artifactId>
             <version>${kotlin_loggin_version}</version>
