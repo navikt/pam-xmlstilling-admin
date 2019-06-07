@@ -7,14 +7,12 @@ import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
-import io.ktor.html.respondHtml
 import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import kotlinx.html.body
 import mu.KotlinLogging
 import no.nav.pam.xmlstilling.admin.Bootstrap.start
 import no.nav.pam.xmlstilling.admin.dao.StillingBatch
@@ -42,13 +40,13 @@ fun webApplication(port: Int = 9024, batch: StillingBatch): ApplicationEngine {
         }
         routing {
             health()
-            get("frontend") {
-                call.respondHtml {
-                    body {
-                        +"Hello world!"
-                    }
-                }
-            }
+//            get("frontend") {
+//                call.respondHtml {
+//                    body {
+//                        +"Hello world!"
+//                    }
+//                }
+//            }
             get("get/{id}") {
                 call.respond(batch.getSingle(
                         call.parameters["id"]!!.toInt()) ?: "")
