@@ -1,7 +1,7 @@
 package no.nav.pam.xmlstilling.admin.dao
 
 import kotliquery.HikariCP
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
@@ -18,8 +18,10 @@ class StillingBatchTest {
         }
     }
 
+    val firstDate = LocalDateTime.of(2018, 1, 11, 0, 0, 0)
     val startDate = LocalDateTime.of(2018, 1, 23, 0, 0, 0)
     val endDate = LocalDateTime.of(2018, 1, 30, 0, 0, 0)
+    val lastDate = LocalDateTime.of(2018, 2, 3, 0, 0, 0)
     val stillingBatch = StillingBatch(HikariCP.dataSource())
 
     @Test
@@ -29,7 +31,7 @@ class StillingBatchTest {
                 endDate,
                 "karri"
         )
-        Assertions.assertThat(stillingBatchEntries.size).isEqualTo(2)
+        assertThat(stillingBatchEntries.size).isEqualTo(2)
     }
 
     @Test
@@ -39,7 +41,7 @@ class StillingBatchTest {
                 endDate,
                 ""
         )
-        Assertions.assertThat(stillingBatchEntries.size).isEqualTo(4)
+        assertThat(stillingBatchEntries.size).isEqualTo(4)
     }
 
     @Test
@@ -49,7 +51,7 @@ class StillingBatchTest {
                 endDate,
                 "no_matches_for_this"
         )
-        Assertions.assertThat(stillingBatchEntries.size).isEqualTo(0)
+        assertThat(stillingBatchEntries.size).isEqualTo(0)
     }
 
     @Test
@@ -59,10 +61,10 @@ class StillingBatchTest {
                 endDate,
                 "nAv"
         )
-        Assertions.assertThat(stillingBatchEntries.size).isEqualTo(1)
-        val entry = stillingBatchEntries.get(0)
-        Assertions.assertThat(entry.arbeidsgiver).isEqualTo("NAV")
-        Assertions.assertThat(entry.eksternBrukerRef).isEqualTo("karriereno")
+        assertThat(stillingBatchEntries.size).isEqualTo(1)
+        val entry = stillingBatchEntries.first()
+        assertThat(entry.arbeidsgiver).isEqualTo("NAV")
+        assertThat(entry.eksternBrukerRef).isEqualTo("karriereno")
     }
 
     @Test
@@ -73,21 +75,36 @@ class StillingBatchTest {
                     endDate,
                     it
             )
-            Assertions.assertThat(stillingBatchEntries.size).isEqualTo(4)
+            assertThat(stillingBatchEntries.size).isEqualTo(4)
         }
     }
 
     @Test
     fun testGetSingle() {
         val stilling = stillingBatch.getSingle(4)
-        Assertions.assertThat(stilling?.stillingBatchId).isEqualTo(4)
-        Assertions.assertThat(stilling?.eksternBrukerRef).isEqualToIgnoringCase("karriereno")
+        assertThat(stilling?.stillingBatchId).isEqualTo(4)
+        assertThat(stilling?.eksternBrukerRef).isEqualToIgnoringCase("karriereno")
     }
 
     @Test
     fun testGetSingleNull() {
         val stilling = stillingBatch.getSingle(4000)
-        Assertions.assertThat(stilling).isNull()
+        assertThat(stilling).isNull()
+    }
+
+    @Test
+    fun testGetByReference() {
+        val referanse = "222_Jernia_webcruiter"
+        val stillingBatchEntries= stillingBatch.search(
+                firstDate,
+                lastDate,
+                referanse
+        )
+        assertThat(stillingBatchEntries.size).isEqualTo(2)
+        stillingBatchEntries.forEach {
+            assertThat(it.eksternBrukerRef).isEqualTo("webcruiter")
+            assertThat(it.eksternId).isEqualTo("222")
+        }
     }
 
 }
