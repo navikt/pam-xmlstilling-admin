@@ -24,4 +24,3 @@ spec:
   ingresses:
   - https://pam-xmlstilling-admin.nais.preprod.local
   - https://pam-xmlstilling-admin-q.adeo.no
-  secrets: true
