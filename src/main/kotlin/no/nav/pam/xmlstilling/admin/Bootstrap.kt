@@ -5,6 +5,7 @@ import com.google.gson.JsonSerializer
 import com.zaxxer.hikari.HikariConfig
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
 import io.ktor.response.respond
@@ -38,6 +39,13 @@ fun webApplication(port: Int = 9024, batch: StillingBatch): ApplicationEngine {
                 })
             }
         }
+
+        install(CORS) {
+            allowCredentials = true
+            //header("Authorization")
+            anyHost()
+        }
+
         routing {
             health()
 //            get("frontend") {
