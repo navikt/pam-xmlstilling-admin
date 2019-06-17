@@ -70,7 +70,7 @@ object Bootstrap {
         log.debug("Initializing database connection pool")
         val config = HikariConfig()
         config.jdbcUrl = env.xmlStillingDataSourceUrl
-        config.maximumPoolSize = 5
+        config.maximumPoolSize = 2
         config.minimumIdle = 1
         return HikariCPVaultUtil.createHikariDataSourceWithVaultIntegration(
                 config,
