@@ -15,6 +15,7 @@ val createTable = """
         BEHANDLET_DATO DATE,
         BEHANDLET_STATUS VARCHAR(3),
         ARBEIDSGIVER VARCHAR(150),
+        EKSTERN_ID VARCHAR(150),
         CONSTRAINT PK_ID PRIMARY KEY (STILLING_BATCH_ID));
 """.trimIndent()
 
@@ -26,8 +27,9 @@ val insertStillingBatchSql = """
         MOTTATT_DATO,
         BEHANDLET_DATO,
         BEHANDLET_STATUS,
-        ARBEIDSGIVER)
-        values (?, ?, ?, ?, ?, ?, ?);
+        ARBEIDSGIVER,
+        EKSTERN_ID)
+        values (?, ?, ?, ?, ?, ?, ?, ?);
 """.trimIndent()
 
 val createDatabase = {
@@ -38,14 +40,14 @@ val createDatabase = {
 
 val loadTestData = {
     using(sessionOf(HikariCP.dataSource())) { session ->
-        session.run(queryOf(insertStillingBatchSql, 1, "aditro", Leverandor.ADITRO.xml(), "2018-01-11", null, "0", "Coop Nordland").asUpdate)
-        session.run(queryOf(insertStillingBatchSql, 2, "webcruiter", Leverandor.WEBCRUITER.xml(), "2018-01-23", null, "0", "Evje og Hornnes kommune").asUpdate)
-        session.run(queryOf(insertStillingBatchSql, 3, "hrmanager", Leverandor.HRMANAGER.xml(), "2018-01-23", null, "0", "UIO").asUpdate)
-        session.run(queryOf(insertStillingBatchSql, 4, "karriereno", Leverandor.KARRIERENO.xml(), "2018-01-23", null, "0", "NAV").asUpdate)
-        session.run(queryOf(insertStillingBatchSql, 5, "webcruiter", Leverandor.WEBCRUITER.xml(), "2018-01-30", null, "-1", "Krydder og karri").asUpdate)
-        session.run(queryOf(insertStillingBatchSql, 6, "globesoft", Leverandor.GLOBESOFT.xml(), "2018-01-31", null, "0", "Buddy").asUpdate)
-        session.run(queryOf(insertStillingBatchSql, 7, "stepstone", Leverandor.STEPSTONE.xml(), "2018-02-02", null, "0", "Buddy").asUpdate)
-        session.run(queryOf(insertStillingBatchSql, 8, "webcruiter", Leverandor.WEBCRUITER_UPDATE.xml(), "2018-02-03", null, "0", "Buddy").asUpdate)
+        session.run(queryOf(insertStillingBatchSql, 1, "aditro", Leverandor.ADITRO.xml(), "2018-01-11", null, "0", "Coop Nordland", "111").asUpdate)
+        session.run(queryOf(insertStillingBatchSql, 2, "webcruiter", Leverandor.WEBCRUITER.xml(), "2018-01-23", null, "0", "Jernia", "222").asUpdate)
+        session.run(queryOf(insertStillingBatchSql, 3, "hrmanager", Leverandor.HRMANAGER.xml(), "2018-01-23", null, "0", "UIO", "333").asUpdate)
+        session.run(queryOf(insertStillingBatchSql, 4, "karriereno", Leverandor.KARRIERENO.xml(), "2018-01-23", null, "0", "NAV", "111").asUpdate)
+        session.run(queryOf(insertStillingBatchSql, 5, "webcruiter", Leverandor.WEBCRUITER.xml(), "2018-01-30", null, "-1", "Krydder og karri", "333").asUpdate)
+        session.run(queryOf(insertStillingBatchSql, 6, "globesoft", Leverandor.GLOBESOFT.xml(), "2018-01-31", null, "0", "Buddy", "444").asUpdate)
+        session.run(queryOf(insertStillingBatchSql, 7, "stepstone", Leverandor.STEPSTONE.xml(), "2018-02-02", null, "0", "Oslo kommune", "222").asUpdate)
+        session.run(queryOf(insertStillingBatchSql, 8, "webcruiter", Leverandor.WEBCRUITER_UPDATE.xml(), "2018-02-03", null, "0", "Jernia", "222").asUpdate)
 
     }
 }

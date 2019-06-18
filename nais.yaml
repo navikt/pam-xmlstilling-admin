@@ -21,4 +21,6 @@ spec:
   webproxy: true
   vault:
     enabled: true
-  secrets: true
+  ingresses:
+  - https://pam-xmlstilling-admin.nais.adeo.no
+  - https://pam-xmlstilling-admin.adeo.no
