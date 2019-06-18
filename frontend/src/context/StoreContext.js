@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { reducer, initialState } from './reducers';
 import { useActions } from './actions';
 
@@ -9,14 +9,6 @@ const StoreProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     // Create an object of all our actions, handling special cases where a simple dispatch is too primitive
     const actions = useActions(state, dispatch);
-
-    // Log new state
-    useEffect(
-        () => {
-            console.log({ newState: state });
-        },
-        [state]
-    );
 
     // Render state, dispatch and special case actions
     return (

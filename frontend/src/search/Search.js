@@ -1,5 +1,5 @@
 import React, { useContext, useCallback, useEffect } from 'react';
-import { Normaltekst, Ingress } from 'nav-frontend-typografi';
+import { Normaltekst, Ingress, Sidetittel } from 'nav-frontend-typografi';
 import Datovelger from 'nav-datovelger/dist/datovelger/Datovelger';
 import 'nav-datovelger/dist/datovelger/styles/datovelger.css';
 import { Input } from 'nav-frontend-skjema';
@@ -23,12 +23,17 @@ const Search = () => {
     }, [from, to, employer]);
 
     useEffect(() => {
-        console.log('useEffect', from, to)
         onSearch();
     }, []);
 
     return (
         <>
+            <Sidetittel className="blokk-s">Stillingsannonser</Sidetittel>
+            <Normaltekst className="blokk-m">
+                Viser stillingsannonser som er mottatt. Du kan søke fram alle stillingsannonser som har kommet inn for
+                en gitt periode, eller søke på alle stillingsannonser som er sendt inn av en leverandør eller
+                arbeidsgiver.
+            </Normaltekst>
             <div className="blokk-s">
                 <div className="DatoWrapper">
                     <Normaltekst className="DatoLabel">Fra dato:</Normaltekst>
