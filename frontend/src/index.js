@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter , Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Search from './search/Search';
 import Details from './result/Details';
-import { StoreProvider } from "./context/StoreContext";
-import './styles.less'
+import { StoreProvider } from './context/StoreContext';
+import './styles.less';
 
 
 const Index = () => {
@@ -12,8 +12,8 @@ const Index = () => {
     return (
         <main>
             <Switch>
-                <Route exact path="/" component={Search}/>
-                <Route exact path="/:id" component={Details}/>
+                <Route exact path="/" component={Search} />
+                <Route exact path="/:id" component={Details} />
             </Switch>
         </main>
 
@@ -22,9 +22,9 @@ const Index = () => {
 
 ReactDOM.render(
     <StoreProvider>
-        <BrowserRouter >
+        <BrowserRouter>
             <Index />
-        </BrowserRouter >
+        </BrowserRouter>
     </StoreProvider>,
     document.getElementById('app')
 );

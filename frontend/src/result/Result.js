@@ -1,13 +1,20 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 const getStatusText = (code) => {
-    return code === '0' ?
-        'Sendingen er mottatt og lagret til database. Vil bli forsøkt levert videre til PAM-annonsemottak' :
-        'Den mottatte XML\'en er ugyldig';
+    if (code === '0') {
+        return 'Sendingen er mottatt og lagret til database. Vil bli forsøkt levert videre til PAM-annonsemottak';
+    }
+    if (code === '-1') {
+        return 'Den mottatte XML\'en er ugyldig';
+    }
+    return 'Ukjent status';
 };
 
-const Result = ({items, showDetailsLink=true}) => {
+const Result = ({ items, showDetailsLink }) => {
     return (
         <table>
             <thead>
@@ -32,7 +39,8 @@ const Result = ({items, showDetailsLink=true}) => {
                         </td>
                         <td>
                             {item.eksternBrukerRef}
-                        </td><td>
+                        </td>
+                        <td>
                             {item.arbeidsgiver}
                         </td>
                         <td>
@@ -42,13 +50,34 @@ const Result = ({items, showDetailsLink=true}) => {
                             {moment(item.mottattDato).local().format('HH:mm')}
                         </td>
                         {showDetailsLink && (
-                            <td><a href={`/${item.stillingBatchId}`}>Se detaljer</a></td>
+                            <td>
+                                <Link to={`/${item.stillingBatchId}`} className="lenke">
+                                    <Normaltekst className="blokk-s">Se detaljer</Normaltekst>
+                                </Link>
+                            </td>
                         )}
                     </tr>
                 ))}
             </tbody>
         </table>
     );
+};
+
+
+Result.defaultProps = {
+    showDetailsLink: true
+};
+
+Result.propTypes = {
+    showDetailsLink: PropTypes.bool,
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            stillingBatchId: PropTypes.number,
+            arbeidsgiver: PropTypes.string,
+            eksternBrukerRef: PropTypes.string,
+            mottattDato: PropTypes.string
+        })
+    ).isRequired
 };
 
 export default Result;

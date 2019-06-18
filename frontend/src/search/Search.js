@@ -1,10 +1,10 @@
-import React, { useContext, useCallback, useEffect } from "react";
+import React, { useContext, useCallback, useEffect } from 'react';
 import { Normaltekst, Ingress } from 'nav-frontend-typografi';
 import Datovelger from 'nav-datovelger/dist/datovelger/Datovelger';
 import 'nav-datovelger/dist/datovelger/styles/datovelger.css';
 import { Input } from 'nav-frontend-skjema';
 import { Hovedknapp } from 'nav-frontend-knapper';
-import {searchStillinger} from '../api/api';
+import { searchStillinger } from '../api/api';
 import { StoreContext } from '../context/StoreContext';
 import Result from '../result/Result';
 
@@ -23,10 +23,10 @@ const Search = () => {
     }, [from, to, employer]);
 
     useEffect(() => {
+        console.log('useEffect', from, to)
         onSearch();
-        }, []);
+    }, []);
 
-    console.log('dateTo', to);
     return (
         <>
             <div className="blokk-s">
@@ -40,23 +40,21 @@ const Search = () => {
                             placeholder: 'dd.mm.åååå',
                             ariaLabel: 'datoFra'
                         }}
-                        onChange={( fra ) => {
-                            actions.setFromDate(fra)
-                        }}
+                        onChange={(fra) => { actions.setFromDate(fra); }}
                     />
                 </div>
                 <div className="DatoWrapper">
-                    <Normaltekst className="DatoLabel" >Til dato:</Normaltekst>
+                    <Normaltekst className="DatoLabel">Til dato:</Normaltekst>
                     <Datovelger
                         valgtDato={to}
                         input={{
                             id: 'fra',
                             name: 'frist',
                             placeholder: 'dd.mm.åååå',
-                            ariaLabel: 'Frist:',
+                            ariaLabel: 'Frist:'
                         }}
                         id="fristDatovelger"
-                        onChange={( til ) => {actions.setToDate(til)}}
+                        onChange={(til) => { actions.setToDate(til); }}
                     />
                 </div>
             </div>
@@ -73,7 +71,7 @@ const Search = () => {
             }
             <Result items={searchResult} />
         </>
-    )
-}
+    );
+};
 
 export default Search;

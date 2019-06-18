@@ -1,5 +1,5 @@
 const initialState = {
-    searchResult: {},
+    searchResult: [],
     from: '2018-01-23',
     to: '2018-02-12',
     employer: ''
@@ -35,7 +35,7 @@ const reducer = (state = initialState, action) => {
                 employer: action.value
             };
         default:
-            throw new Error('Unexpected action');
+            return state;
     }
 };
 export { initialState, types, reducer };
