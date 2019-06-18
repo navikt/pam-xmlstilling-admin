@@ -1,53 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { searchStillinger } from '../api/api';
+import React from 'react';
+import moment from 'moment';
 
+const getStatusText = (code) => {
+    return code === '0' ?
+        'Sendingen er mottatt og lagret til database. Vil bli forsøkt levert videre til PAM-annonsemottak' :
+        'Den mottatte XML\'en er ugyldig';
+};
 
-const Result = () => {
-    const [data, setData] = useState({});
-
-    useEffect( () => {
-        const fetchData = async () => {
-            const result = await searchStillinger('2018-01-23','2018-01-23','');
-            console.log('result', result)
-            setData(result);
-        };
-
-        fetchData();
-    }, []);
-
+const Result = ({items, showDetailsLink=true}) => {
     return (
-        <div>
-            <dl>
-                {data && data.length > 0 && data.map(item => (
-                    <div key={item.stillingBatchId}>
-                        <dt>stillingBatchId</dt>
-                        <dd>
-                            {item.stillingBatchId}
-                        </dd>
-                        <dt>eksternBrukerRef</dt>
-                        <dd>
-                            {item.eksternBrukerRef}
-                        </dd>
-                        <dt>stillingXml</dt>
-                        <dd>
-                            {item.stillingXml}
-                        </dd>
-                        <dt>mottattDato</dt>
-                        <dd>
-                            {item.mottattDato}
-                        </dd>
-                        <dt>behandletStatus</dt>
-                        <dd>
+        <table>
+            <thead>
+                <tr>
+                    <th>Statuskode</th>
+                    <th>Statustekst</th>
+                    <th>Leverandør</th>
+                    <th>Arbeidsgiver</th>
+                    <th>Dato mottatt</th>
+                    <th>Kl</th>
+                    {showDetailsLink && <th>Detaljer</th>}
+                </tr>
+            </thead>
+            <tbody>
+                {items.length > 0 && items.map((item) => (
+                    <tr key={item.stillingBatchId}>
+                        <td className="text-center">
                             {item.behandletStatus}
-                        </dd>
-                        <dt>arbeidsgiver</dt>
-                        <dd>
+                        </td>
+                        <td>
+                            {getStatusText(item.behandletStatus)}
+                        </td>
+                        <td>
+                            {item.eksternBrukerRef}
+                        </td><td>
                             {item.arbeidsgiver}
-                        </dd>
-                    </div>
+                        </td>
+                        <td>
+                            {moment(item.mottattDato).local().format('DD.MM.YYYY')}
+                        </td>
+                        <td>
+                            {moment(item.mottattDato).local().format('HH:mm')}
+                        </td>
+                        {showDetailsLink && (
+                            <td><a href={`/${item.stillingBatchId}`}>Se detaljer</a></td>
+                        )}
+                    </tr>
                 ))}
-            </dl>
-        </div>
+            </tbody>
+        </table>
     );
 };
 

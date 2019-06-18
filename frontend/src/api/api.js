@@ -22,6 +22,6 @@ const get = async (url) => new Promise((resolve, reject) => {
 });
 
 
-export const searchStillinger = (from, to, employer) => get(`${API_PATH}search/${from}/${to}`);
-export const getStillingByBatchId = (id) => get(`${API_PATH}get/id`);
+export const searchStillinger = (from, to, employer) => get(`${API_PATH}search/${from}/${to}/${employer}`);
+export const getStillingByBatchId = (id) => get(`${API_PATH}get/${id}`);
 
