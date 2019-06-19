@@ -27,7 +27,7 @@ const Search = () => {
     }, []);
 
     return (
-        <>
+        <div>
             <Sidetittel className="blokk-s">Stillingsannonser</Sidetittel>
             <Normaltekst className="blokk-m">
                 Viser stillingsannonser som er mottatt. Du kan søke fram alle stillingsannonser som har kommet inn for
@@ -75,7 +75,7 @@ const Search = () => {
                 <Ingress className="blokk-s">{`${searchResult.length} treff`}</Ingress>
             }
             <Result items={searchResult} />
-        </>
+        </div>
     );
 };
 
