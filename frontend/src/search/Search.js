@@ -27,14 +27,16 @@ const Search = () => {
     }, []);
 
     return (
-        <div>
-            <Sidetittel className="blokk-s">Stillingsannonser</Sidetittel>
-            <Normaltekst className="blokk-m">
-                Viser stillingsannonser som er mottatt. Du kan søke fram alle stillingsannonser som har kommet inn for
-                en gitt periode, eller søke på alle stillingsannonser som er sendt inn av en leverandør eller
-                arbeidsgiver.
-            </Normaltekst>
-            <div className="blokk-s">
+        <article className="SearchPage">
+            <header>
+                <Sidetittel tag="h1" className="blokk-s">Stillingsannonser</Sidetittel>
+                <Normaltekst className="blokk-m">
+                    Her vises stillingsannonser som er mottatt. Du kan søke fram alle stillingsannonser som har kommet
+                    inn for en gitt periode, eller søke på alle stillingsannonser som er sendt inn av en leverandør
+                    eller arbeidsgiver eller som har en gitt referanse.
+                </Normaltekst>
+            </header>
+            <section className="blokk-s">
                 <div className="DatoWrapper">
                     <Normaltekst className="DatoLabel">Fra dato:</Normaltekst>
                     <Datovelger
@@ -62,20 +64,20 @@ const Search = () => {
                         onChange={(til) => { actions.setToDate(til); }}
                     />
                 </div>
-            </div>
-            <Input
-                label="Søk på leverandør eller arbeidsgiver"
-                value={employer}
-                onChange={(e) => actions.setEmployer(e.target.value)}
-                bredde="XL"
-                className="blokk-s"
-            />
-            <Hovedknapp className="blokk-m" onClick={onSearch}>Søk</Hovedknapp>
-            {searchResult && searchResult.length >= 0 &&
-                <Ingress className="blokk-s">{`${searchResult.length} treff`}</Ingress>
-            }
+                <Input
+                    label="Søk på leverandør, arbeidsgiver eller referanse"
+                    value={employer}
+                    onChange={(e) => actions.setEmployer(e.target.value)}
+                    bredde="XL"
+                    className="blokk-s"
+                />
+                <Hovedknapp className="blokk-m" onClick={onSearch}>Søk</Hovedknapp>
+                {searchResult && searchResult.length >= 0 &&
+                    <Ingress className="blokk-s">{`${searchResult.length} treff`}</Ingress>
+                }
+            </section>
             <Result items={searchResult} />
-        </div>
+        </article>
     );
 };
 

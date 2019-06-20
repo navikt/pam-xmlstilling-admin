@@ -6,10 +6,10 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 const getStatusText = (code) => {
     if (code === '0') {
-        return 'Sendingen er mottatt og lagret til database. Vil bli forsøkt levert videre til PAM-annonsemottak';
+        return <span className="statusOk">OK</span>;
     }
     if (code === '-1') {
-        return 'Den mottatte XML\'en er ugyldig';
+        return <span className="statusError">Ugyldig XML</span>;
     }
     return 'Ukjent status';
 };
@@ -19,8 +19,7 @@ const Result = ({ items, showDetailsLink }) => {
         <table>
             <thead>
                 <tr>
-                    <th>Statuskode</th>
-                    <th>Statustekst</th>
+                    <th>Status</th>
                     <th>Leverandør</th>
                     <th>Arbeidsgiver</th>
                     <th>Dato mottatt</th>
@@ -31,9 +30,6 @@ const Result = ({ items, showDetailsLink }) => {
             <tbody>
                 {items.length > 0 && items.map((item) => (
                     <tr key={item.stillingBatchId}>
-                        <td className="text-center">
-                            {item.behandletStatus}
-                        </td>
                         <td>
                             {getStatusText(item.behandletStatus)}
                         </td>
