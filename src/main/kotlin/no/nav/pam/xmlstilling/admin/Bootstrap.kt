@@ -43,19 +43,11 @@ fun webApplication(port: Int = 9024, batch: StillingBatch): ApplicationEngine {
 
         install(CORS) {
             allowCredentials = true
-            //header("Authorization")
             anyHost()
         }
 
         routing {
             health()
-//            get("frontend") {
-//                call.respondHtml {
-//                    body {
-//                        +"Hello world!"
-//                    }
-//                }
-//            }
             get("get/{id}") {
                 call.respond(batch.getSingle(
                         call.parameters["id"]!!.toInt()) ?: "")
