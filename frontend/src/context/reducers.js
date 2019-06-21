@@ -1,7 +1,9 @@
+import moment from 'moment';
+
 const initialState = {
     searchResult: [],
-    from: '2018-01-23',
-    to: '2018-02-12',
+    from: moment().subtract(7, 'd').format('YYYY-MM-DD'),
+    to: moment().format('YYYY-MM-DD'),
     employer: ''
 };
 

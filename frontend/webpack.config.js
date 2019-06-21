@@ -1,6 +1,10 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
+    output: {
+        filename: 'static/main.js'
+    },
     module: {
         rules: [
             {
@@ -35,6 +39,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            __API__: "'/'"
+        }),
         new HtmlWebPackPlugin({
             template: './src/index.html',
             filename: './index.html'

@@ -8,6 +8,7 @@ import io.ktor.application.install
 import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
+import io.ktor.http.content.resource
 import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.routing
@@ -66,6 +67,9 @@ fun webApplication(port: Int = 9024, batch: StillingBatch): ApplicationEngine {
                         call.parameters["searchtext"]
                         ))
             }
+            resource("","index.html")
+            resource("/{id...}","index.html")
+            resource("/static/main.js","static/main.js")
         }
     }
 }

@@ -6,8 +6,6 @@ class ApiError extends Error {
     }
 }
 
-const API_PATH = 'http://localhost:9024/';
-
 const get = async (url) => new Promise((resolve, reject) => {
     fetch(url, { method: 'GET', credentials: 'include', mode: 'cors' }).then((result) => {
         if (result.status === 200) {
@@ -20,5 +18,5 @@ const get = async (url) => new Promise((resolve, reject) => {
 });
 
 
-export const searchStillinger = (from, to, employer) => get(`${API_PATH}search/${from}/${to}/${employer}`);
-export const getStillingByBatchId = (id) => get(`${API_PATH}get/${id}`);
+export const searchStillinger = (from, to, employer) => get(`${__API__}search/${from}/${to}/${employer}`);
+export const getStillingByBatchId = (id) => get(`${__API__}get/${id}`);

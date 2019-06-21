@@ -1,8 +1,12 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     devServer: {
         historyApiFallback: true
+    },
+    output: {
+        filename: 'static/main.js'
     },
     module: {
         rules: [
@@ -38,6 +42,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            __API__: "'http://localhost:9024/'"
+        }),
         new HtmlWebPackPlugin({
             template: './src/index.html',
             filename: './index.html'
