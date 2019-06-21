@@ -17,3 +17,22 @@ Eksempel på API-kall:
 * http://localhost:9024/search/2018-01-11/2018-02-03/222_Jernia_webcruiter
 * http://localhost:9024/get/7
 
+
+## Frontend
+### Kjøre lokalt
+
+```sh 
+npm install
+npm start
+```
+
+### Deploy av frontend
+Dette krever litt manuelt arbeid. 
+Bygg først lokalt
+```sh 
+npm install
+npm run build
+```
+
+Deretter må folderen `static` (med main.js), og fila `index.html`, kopieres over til `pam-xmlstilling-admin/src/main/resources/`,
+
