@@ -40,10 +40,10 @@ const Result = ({ items, showDetailsLink }) => {
                             {item.arbeidsgiver}
                         </td>
                         <td>
-                            {moment(item.mottattDato).local().format('DD.MM.YYYY')}
+                            {moment(item.mottattDato).utc().format('DD.MM.YYYY')}
                         </td>
                         <td>
-                            {moment(item.mottattDato).local().format('HH:mm')}
+                            {moment(item.mottattDato).utc().format('HH:mm')}
                         </td>
                         {showDetailsLink && (
                             <td>
