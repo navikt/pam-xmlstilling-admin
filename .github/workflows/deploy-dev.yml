@@ -10,34 +10,32 @@ on:
       - master
 jobs:
   # security:
-  #   security:
-  #       runs-on: ubuntu-latest
-  #       steps:
-  #       - uses: actions/checkout@v1
-  #       - name: Run Snyk to check for vulnerabilities
-  #         uses: snyk/actions/maven@master
-  #         env:
-  #           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  #         with:
-  #           command: test --severity-threshold=high
-
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #     - uses: actions/checkout@v1
+  #     - name: Run Snyk to check for vulnerabilities
+  #       uses: snyk/actions/maven@master
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #       with:
+  #         command: test --severity-threshold=high
   build-and-deploy:
     # needs: security
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v1
-        - uses: actions/setup-node@v1
-        - uses: actions/cache@v1
-          with:
-            path: ~/.npm
-            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: |
-              ${{ runner.os }}-node-
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: build and test
         working-directory: ./frontend
         run: |
           npm install
-          npm run build
+          npm run build 
       - name: pre-deploy
         uses: navikt/pam-deploy/actions/pre-deploy@v1
         env:
