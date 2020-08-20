@@ -22,7 +22,7 @@ jobs:
   #     with:
   #       command: test --severity-threshold=high
 
-  build-and-test:
+  build-and-test-frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -38,3 +38,18 @@ jobs:
         run: |
           npm install
           npm run build 
+  build-and-test-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: build and test
+        run: mvn clean install
