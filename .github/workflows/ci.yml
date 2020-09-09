@@ -7,21 +7,8 @@ on:
       - "LICENCE"
       - "CODEOWNERS"
     branches:
-      # - '*'
-      # - '!master'
-        - 'workflow'
+      - '*'
 jobs:
-  # security:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v1
-  #   - name: Run Snyk to check for vulnerabilities
-  #     uses: snyk/actions/maven@master
-  #     env:
-  #       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  #     with:
-  #       command: test --severity-threshold=high
-
   build-and-test-frontend:
     runs-on: ubuntu-latest
     steps:
@@ -37,7 +24,7 @@ jobs:
         working-directory: ./frontend
         run: |
           npm install
-          npm run build 
+          npm run build
   build-and-test-backend:
     runs-on: ubuntu-latest
     steps:
